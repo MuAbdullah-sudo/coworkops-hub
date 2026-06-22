@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>CoworkOps Hub | Cowork24 Infrastructure</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0e1a;
+      letter-spacing: -0.01em;
+    }
+    
+    /* Cowork24-inspired glassmorphism with gold accents */
+    .cowork-card {
+      background: rgba(18, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(200, 164, 92, 0.15);
+      border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .cowork-card:hover {
+      border-color: rgba(200, 164, 92, 0.3);
+      box-shadow: 0 30px 60px -12px rgba(200, 164, 92, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    /* Gold accent elements */
+    .gold-gradient {
+      background: linear-gradient(135deg, #c8a45c 0%, #d4af6d 50%, #b8943f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .gold-border {
+      border: 2px solid #c8a45c;
+    }
+    
+    .gold-bg {
+      background: linear-gradient(135deg, #c8a45c, #b8943f);
+    }
+    
+    .gold-glow {
+      box-shadow: 0 0 20px rgba(200, 164, 92, 0.3);
+    }
+    
+    .navy-bg {
+      background: #0f1525;
+    }
+    
+    /* Custom scrollbar */
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(200, 164, 92, 0.05);
+      border-radius: 10px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #c8a45c, #8b7340);
+      border-radius: 10px;
+    }
+    
+    /* Pulse animation for live indicator */
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: pulse 2s infinite;
+      display: inline-block;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+    
+    /* Premium input styles */
+    input, select, textarea {
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      border-color: #c8a45c !important;
+      box-shadow: 0 0 0 3px rgba(200, 164, 92, 0.1) !important;
+    }
+    
+    /* Button hover effects */
+    .gold-btn {
+      background: linear-gradient(135deg, #c8a45c 0%, #b8943f 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .gold-btn:hover {
+      background: linear-gradient(135deg, #d4af6d 0%, #c8a45c 100%);
+      box-shadow: 0 10px 25px rgba(200, 164, 92, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .gold-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* Priority badges */
+    .priority-high {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+    }
+    
+    .priority-medium {
+      background: rgba(200, 164, 92, 0.2);
+      border: 1px solid rgba(200, 164, 92, 0.5);
+      color: #d4af6d;
+    }
+    
+    .priority-low {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #6ee7b7;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-gray-200 p-4 md:p-6 lg:p-8">
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto space-y-6">
+    
+    <!-- Premium Header -->
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-2">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 gold-bg rounded-lg flex items-center justify-center gold-glow">
+          <i class="fas fa-building text-white text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold">
+            <span class="text-white">Cowork</span><span class="gold-gradient">Ops Hub</span>
+          </h1>
+          <p class="text-sm text-gray-400 tracking-wide mt-1">COWORK24 • INFRASTRUCTURE MANAGEMENT</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3 cowork-card px-5 py-3 rounded-full">
+        <span class="pulse-dot"></span>
+        <span class="text-gray-300 font-medium text-sm">System Live</span>
+        <span class="text-gray-600 mx-2">|</span>
+        <span class="text-gray-400 text-xs font-mono" id="liveTimestamp">--:--:--</span>
+      </div>
+    </header>
+
+    <!-- KPI Dashboard Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <!-- Network Infrastructure -->
+      <div class="cowork-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">Network Health</span>
+          <i class="fas fa-wifi text-[#c8a45c] text-xl"></i>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-end gap-2">
+            <span class="text-5xl font-bold text-white">99.8</span>
+            <span class="text-2xl text-[#c8a45c] mb-1">%</span>
+          </div>
+          <p class="text-gray-400 text-sm">Uptime SLA Achieved</p>
+          <div class="h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full w-[99.8%] bg-gradient-to-r from-[#c8a45c] to-[#d4af6d] rounded-full"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500">
+            <span>Bandwidth: <strong class="text-white">1.2 Gbps</strong></span>
+            <span>Latency: <strong class="text-green-400">12ms</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Space Occupancy -->
+      <div class="cowork-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">Space Occupancy</span>
+          <i class="fas fa-chair text-[#c8a45c] text-xl"></i>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-end gap-2">
+            <span class="text-5xl font-bold text-white" id="deskCount">26</span>
+            <span class="text-xl text-gray-500 mb-1">/ 32 desks</span>
+          </div>
+          <p class="text-gray-400 text-sm">Active Workstations</p>
+          <div class="h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div class="h-full w-[81%] bg-gradient-to-r from-[#c8a45c] to-[#d4af6d] rounded-full"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500">
+            <span>Meeting Rooms: <strong class="text-white" id="roomCount">4</strong> active</span>
+            <span>Capacity: <strong class="text-green-400">81%</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Support Tickets -->
+      <div class="cowork-card p-6">
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-gray-400 text-xs font-semibold uppercase tracking-wider">Active Tickets</span>
+          <i class="fas fa-ticket-alt text-[#c8a45c] text-xl"></i>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-end gap-2">
+            <span class="text-6xl font-bold text-white" id="activeTicketCounter">0</span>
+            <span class="text-lg text-gray-500 mb-2">open</span>
+          </div>
+          <p class="text-gray-400 text-sm">Infrastructure Queue</p>
+          <div class="flex gap-2 text-xs">
+            <span class="priority-high px-2 py-1 rounded">High</span>
+            <span class="priority-medium px-2 py-1 rounded">Med</span>
+            <span class="priority-low px-2 py-1 rounded">Low</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content: Form + Ticket Queue -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Ticket Creation Form -->
+      <div class="cowork-card p-6 lg:col-span-1">
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 gold-bg rounded-lg flex items-center justify-center">
+            <i class="fas fa-plus text-white text-sm"></i>
+          </div>
+          <h2 class="text-xl font-semibold text-white">Report Issue</h2>
+        </div>
+        
+        <form id="ticketForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wider">Location</label>
+            <input 
+              type="text" 
+              id="locationInput" 
+              placeholder="e.g., Conference Room B, Desk 14"
+              required
+              class="w-full bg-[#0f1525] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none"
+            >
+          </div>
+          
+          <div>
+            <label class="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wider">Issue Type</label>
+            <select 
+              id="issueTypeInput" 
+              required
+              class="w-full bg-[#0f1525] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none"
+            >
+              <option value="Wi-Fi Latency">Wi-Fi Latency</option>
+              <option value="Power Drop">Power Drop</option>
+              <option value="Smart TV Failure">Smart TV Failure</option>
+              <option value="Printer Network Timeout">Printer Network Timeout</option>
+              <option value="HVAC Issue">HVAC / Climate Control</option>
+              <option value="Access Control">Access Control</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wider">Priority</label>
+            <select 
+              id="priorityInput" 
+              required
+              class="w-full bg-[#0f1525] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none"
+            >
+              <option value="High">🔴 High Priority</option>
+              <option value="Medium" selected>🟡 Medium Priority</option>
+              <option value="Low">🟢 Low Priority</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-xs font-medium text-gray-400 mb-2 uppercase tracking-wider">Description</label>
+            <textarea 
+              id="descriptionInput" 
+              rows="3" 
+              placeholder="Brief description of the issue..."
+              class="w-full bg-[#0f1525] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none resize-none"
+            ></textarea>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="gold-btn w-full text-white font-semibold py-3.5 rounded-lg flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+          >
+            <i class="fas fa-paper-plane"></i> Create Ticket
+          </button>
+        </form>
+        
+        <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
+          <i class="fas fa-shield-alt text-[#c8a45c]"></i>
+          <span>All data persists in browser storage</span>
+        </div>
+      </div>
+
+      <!-- Active Tickets Queue -->
+      <div class="cowork-card p-6 lg:col-span-2 flex flex-col">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-[#0f1525] border border-[#c8a45c] rounded-lg flex items-center justify-center">
+              <i class="fas fa-list-check text-[#c8a45c] text-sm"></i>
+            </div>
+            <h2 class="text-xl font-semibold text-white">Resolution Queue</h2>
+          </div>
+          <span class="text-xs bg-[#0f1525] px-3 py-1.5 rounded-full text-gray-400 border border-gray-700" id="queueCountBadge">
+            0 tickets
+          </span>
+        </div>
+
+        <!-- Tickets Container -->
+        <div id="ticketsContainer" class="flex-1 space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
+          <!-- Dynamically injected -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="flex flex-col items-center justify-center py-16 text-gray-600 transition-opacity">
+          <i class="fas fa-check-circle text-5xl mb-4 text-green-700"></i>
+          <p class="text-lg font-medium text-gray-500">All Systems Operational</p>
+          <p class="text-sm mt-1">No active infrastructure tickets</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="flex flex-col md:flex-row items-center justify-between text-xs text-gray-600 border-t border-gray-800 pt-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-circle text-[#c8a45c] text-[6px]"></i>
+        <span>Cowork24 Infrastructure Management System</span>
+      </div>
+      <div class="flex items-center gap-4 mt-2 md:mt-0">
+        <span id="lastUpdatedIndicator">Queue synchronized</span>
+        <span class="text-[#c8a45c]">•</span>
+        <span>v1.0 Production</span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // ============ STATE MANAGEMENT ============
+      const STORAGE_KEY = 'cowork24_tickets_v2';
+      
+      // Seed data for first-time visitors
+      const SEED_TICKETS = [
+        {
+          id: 'seed_' + Date.now() + '_1',
+          location: 'Conference Room B',
+          issueType: 'Smart TV Failure',
+          priority: 'High',
+          description: 'Samsung Smart TV authentication loop. Cannot cast from member devices during presentations.',
+          timestamp: new Date(Date.now() - 7200000).toISOString(),
+          status: 'active'
+        },
+        {
+          id: 'seed_' + Date.now() + '_2',
+          location: 'Subnet 3 - Printer Station',
+          issueType: 'Printer Network Timeout',
+          priority: 'Medium',
+          description: 'HP LaserJet Pro M404dn keeps dropping network connection. Affecting desks 14-17.',
+          timestamp: new Date(Date.now() - 3600000).toISOString(),
+          status: 'active'
+        }
+      ];
+
+      let tickets = [];
+
+      // ============ LOCAL STORAGE OPERATIONS ============
+      function loadTickets() {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        
+        if (stored) {
+          try {
+            tickets = JSON.parse(stored);
+            if (!Array.isArray(tickets)) tickets = [];
+          } catch (e) {
+            console.error('Storage corruption, resetting:', e);
+            tickets = [];
+          }
+        }
+        
+        // First visit: seed with realistic data
+        if (tickets.length === 0 && !localStorage.getItem(STORAGE_KEY)) {
+          tickets = [...SEED_TICKETS];
+          persistTickets();
+        }
+      }
+
+      function persistTickets() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets));
+      }
+
+      // ============ UI RENDERING ============
+      function refreshUI() {
+        updateTicketCounter();
+        renderTicketQueue();
+        updateOccupancyMetrics();
+        updateQueueBadge();
+      }
+
+      function updateTicketCounter() {
+        const counter = document.getElementById('activeTicketCounter');
+        if (counter) counter.textContent = tickets.length;
+      }
+
+      function updateQueueBadge() {
+        const badge = document.getElementById('queueCountBadge');
+        if (badge) {
+          badge.textContent = `${tickets.length} ticket${tickets.length !== 1 ? 's' : ''}`;
+        }
+      }
+
+      function renderTicketQueue() {
+        const container = document.getElementById('ticketsContainer');
+        const emptyState = document.getElementById('emptyState');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        if (tickets.length === 0) {
+          if (emptyState) emptyState.style.display = 'flex';
+          return;
+        }
+
+        if (emptyState) emptyState.style.display = 'none';
+
+        // Sort: High priority first, then by timestamp
+        const sorted = [...tickets].sort((a, b) => {
+          const priorityWeight = { 'High': 0, 'Medium': 1, 'Low': 2 };
+          const diff = (priorityWeight[a.priority] || 1) - (priorityWeight[b.priority] || 1);
+          return diff !== 0 ? diff : new Date(b.timestamp) - new Date(a.timestamp);
+        });
+
+        sorted.forEach(ticket => {
+          container.appendChild(createTicketElement(ticket));
+        });
+      }
+
+      function createTicketElement(ticket) {
+        const div = document.createElement('div');
+        div.className = 'bg-[#0f1525] border border-gray-800 rounded-lg p-4 hover:border-[#c8a45c]/30 transition-all';
+        div.setAttribute('data-ticket-id', ticket.id);
+
+        const timeStr = new Date(ticket.timestamp).toLocaleString('en-US', {
+          month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+
+        let priorityClass = 'priority-low';
+        if (ticket.priority === 'High') priorityClass = 'priority-high';
+        else if (ticket.priority === 'Medium') priorityClass = 'priority-medium';
+
+        div.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <span class="text-white font-semibold">
+                  <i class="fas fa-map-marker-alt text-[#c8a45c] text-xs mr-1"></i>
+                  ${escapeHTML(ticket.location)}
+                </span>
+                <span class="text-xs px-2 py-0.5 rounded-full ${priorityClass}">
+                  ${ticket.priority}
+                </span>
+                <span class="text-xs text-gray-500 bg-[#1a1f3a] px-2 py-0.5 rounded">
+                  ${escapeHTML(ticket.issueType)}
+                </span>
+              </div>
+              <p class="text-gray-400 text-sm">${escapeHTML(ticket.description || 'No description')}</p>
+              <p class="text-gray-600 text-xs mt-2 flex items-center gap-1">
+                <i class="far fa-clock"></i> ${timeStr}
+              </p>
+            </div>
+            <button 
+              onclick="window.resolveTicket('${ticket.id}')"
+              class="self-end sm:self-center flex items-center gap-2 px-4 py-2 bg-green-900/20 border border-green-700/50 text-green-400 rounded-lg hover:bg-green-900/40 transition-all text-sm font-medium"
+            >
+              <i class="fas fa-check"></i> Resolve
+            </button>
+          </div>
+        `;
+        return div;
+      }
+
+      function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      function updateOccupancyMetrics() {
+        const deskEl = document.getElementById('deskCount');
+        const roomEl = document.getElementById('roomCount');
+        if (!deskEl || !roomEl) return;
+
+        // Realistic occupancy based on ticket load
+        const baseDesks = 24;
+        const ticketImpact = Math.min(8, Math.floor(tickets.length * 1.5));
+        deskEl.textContent = Math.min(32, baseDesks + ticketImpact);
+        
+        const baseRooms = 3;
+        roomEl.textContent = Math.min(6, baseRooms + Math.floor(tickets.length / 2));
+      }
+
+      // ============ TICKET OPERATIONS ============
+      window.resolveTicket = function(ticketId) {
+        tickets = tickets.filter(t => t.id !== ticketId);
+        persistTickets();
+        refreshUI();
+        updateLastUpdated();
+      };
+
+      function addTicket(location, issueType, priority, description) {
+        const newTicket = {
+          id: 'ticket_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+          location: location.trim(),
+          issueType: issueType,
+          priority: priority,
+          description: description.trim() || 'No description provided',
+          timestamp: new Date().toISOString(),
+          status: 'active'
+        };
+        
+        tickets.push(newTicket);
+        persistTickets();
+        refreshUI();
+        updateLastUpdated();
+      }
+
+      // ============ UTILITIES ============
+      function updateTimestamp() {
+        const el = document.getElementById('liveTimestamp');
+        if (el) {
+          el.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+      }
+
+      function updateLastUpdated() {
+        const el = document.getElementById('lastUpdatedIndicator');
+        if (el) {
+          el.textContent = 'Queue updated • ' + new Date().toLocaleTimeString();
+        }
+      }
+
+      // ============ EVENT LISTENERS ============
+      function setupFormListener() {
+        const form = document.getElementById('ticketForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const location = document.getElementById('locationInput')?.value;
+          const issueType = document.getElementById('issueTypeInput')?.value;
+          const priority = document.getElementById('priorityInput')?.value;
+          const description = document.getElementById('descriptionInput')?.value;
+
+          if (!location || !issueType || !priority) {
+            alert('Please fill in all required fields.');
+            return;
+          }
+
+          addTicket(location, issueType, priority, description);
+          form.reset();
+          document.getElementById('priorityInput').value = 'Medium';
+          document.getElementById('locationInput')?.focus();
+        });
+      }
+
+      // ============ INITIALIZATION ============
+      function init() {
+        loadTickets();
+        refreshUI();
+        setupFormListener();
+        
+        setInterval(updateTimestamp, 1000);
+        setInterval(updateOccupancyMetrics, 10000);
+        updateLastUpdated();
+      }
+
+      window.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>
